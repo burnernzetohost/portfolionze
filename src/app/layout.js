@@ -4,36 +4,44 @@
 
 import React from 'react';
 import './globals.css';
-import localFont from 'next/font/local'; // Import localFont
-import { Montserrat } from 'next/font/google'; // Import Montserrat from Google Fonts
+import localFont from 'next/font/local';
+import { Montserrat } from 'next/font/google';
+
+// CORRECTED IMPORT PATHS for contexts and components
+import { MousePositionProvider } from '../contexts/MousePositionContext'; // Path from src/app/ to src/contexts/
+import CursorGradientOverlay from '../../components/CursorGradientOverlay'; // Path from src/app/ to root/components/
+import Header from '../../components/Header'; // Path from src/app/ to root/components/
 
 // Load your local font for NZE
 const theseasonsLt = localFont({
-  src: '../../public/fonts/Fontspring-DEMO-theseasons-lt.otf', // Adjust path based on where you put the font
+  src: '../../public/fonts/Fontspring-DEMO-theseasons-lt.otf',
   display: 'swap',
-  variable: '--font-theseasons-lt', // Define a CSS variable name for your font
+  variable: '--font-theseasons-lt',
 });
 
 // Load Montserrat font from Google Fonts
 const montserrat = Montserrat({
   subsets: ['latin'],
-  weight: ['700'], // Only load the bold weight
-  variable: '--font-montserrat', // Define a CSS variable name for Montserrat
+  weight: ['700'],
+  variable: '--font-montserrat',
 });
 
 // Load Cocogoose Pro Thin-trial.ttf local font
 const cocogooseProThin = localFont({
-  src: '../../public/fonts/Cocogoose Pro Thin-trial.ttf', // Adjust path based on where you put the font
+  src: '../../public/fonts/Cocogoose Pro Thin-trial.ttf',
   display: 'swap',
-  variable: '--font-cocogoose-pro-thin', // Define a CSS variable name for your font
+  variable: '--font-cocogoose-pro-thin',
 });
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${theseasonsLt.variable} ${montserrat.variable} ${cocogooseProThin.variable}`}> {/* Apply all font variables to the html tag */}
-      {/* Apply the desired background color directly here */}
+    <html lang="en" className={`${theseasonsLt.variable} ${montserrat.variable} ${cocogooseProThin.variable}`}>
       <body className="bg-[#17171c] text-white font-sans antialiased">
-        {children}
+        <MousePositionProvider>
+          <CursorGradientOverlay />
+          <Header />
+          {children}
+        </MousePositionProvider>
       </body>
     </html>
   );
