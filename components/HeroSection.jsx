@@ -1,48 +1,32 @@
 // components/HeroSection.jsx
-'use client'; // This component needs to be a client component for interactivity
+'use client'; 
 
-import React, { useState, useEffect } from 'react'; // Import useState and useEffect
-import { useMousePosition } from '../src/contexts/MousePositionContext'; // Path from root/components/ to src/contexts/
+import React from 'react';
+import { useMousePosition } from '../src/contexts/MousePositionContext';
 
 const HeroSection = () => {
-  const { x: mouseX, y: mouseY } = useMousePosition(); // Get global mouse position
-  const [hasMounted, setHasMounted] = useState(false); // New state to track if component has mounted
+  const { x: mouseX, y: mouseY } = useMousePosition();
 
-  useEffect(() => {
-    // Set hasMounted to true once the component mounts on the client side
-    setHasMounted(true);
-  }, []); // Empty dependency array ensures this runs once after initial render
-
-  // Calculate shadow offset based on mouse position
-  const multi = -0.28; // Adjust this value for more or less movement
+  // This logic for shadow remains the same
+  const multi = -0.28;
   const shadowOffsetX = (mouseX - 50) * multi;
   const shadowOffsetY = (mouseY - 50) * multi;
-
-  // Define the text shadow style conditionally
-  const textShadowStyle = hasMounted
-    ? `${shadowOffsetX}px ${shadowOffsetY}px 12px rgba(0,0,0,1)`
-    : `0px 0px 12px rgba(0,0,0,1)`; // Default static shadow for SSR/initial render
+  const textShadowStyle = `${shadowOffsetX}px ${shadowOffsetY}px 12px rgba(0,0,0,1)`;
 
   return (
     <section
       className="relative h-screen flex flex-col items-center justify-center text-center p-4 overflow-hidden"
-      
     >
-      {/* The circular gradient overlay div is now handled by CursorGradientOverlay */}
-
-      {/* Content wrapper to center and apply max-w-4xl */}
       <div className="relative z-10 max-w-4xl mx-auto">
-        {/* Main title "NZE" with custom font and dynamic drop shadow */}
+        {/* The Hero's "NZE" text. It will be invisible until the main content fades in. */}
         <h1
           className="text-11xl md:text-[12rem] lg:text-[14rem] font-[550] uppercase text-[#dddddd]"
-          style={{ fontFamily: 'var(--font-theseasons-lt)' }}
+          style={{ 
+            fontFamily: 'var(--font-theseasons-lt)',
+            transform: 'translateY(-2rem)', // Match the final position from LoadingScreen
+          }}
         >
-          <span
-            // Dynamically apply text-shadow based on hasMounted state
-            style={{
-              textShadow: textShadowStyle // Use the conditionally defined style
-            }}
-          >
+          <span style={{ textShadow: textShadowStyle }}>
             NZE
           </span>
         </h1>
