@@ -3,21 +3,17 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import React, { useRef } from 'react';
 
-const ScrollDrivenTextAnimation = ({ text, className, style }) => {
+const ScrollDrivenTextAnimation = ({ text, className, style, offset = ['start end', 'start center'] }) => {
   const targetRef = useRef(null);
 
-  // This is where the magic happens.
-  // The animation starts when the top of the component enters the screen
-  // and is complete when the component's top reaches the center of the screen.
   const { scrollYProgress } = useScroll({
     target: targetRef,
-    offset: ['start end', 'start center'],
+    offset: offset,
   });
 
   const words = [text]; // Treat the input as a single "word" for this effect
 
   return (
-    // Pass the style prop correctly to the underlying element
     <div ref={targetRef} className={className} style={style}>
       {words.map((word, i) => {
         const start = i / words.length;
@@ -57,7 +53,6 @@ const Word = ({ progress, range, word }) => {
 };
 
 const Character = ({ progress, range, char }) => {
-  // Opacity now transforms from 0 (invisible) to 1 (fully visible).
   const opacity = useTransform(progress, range, [0, 1]);
   return (
     <motion.span style={{ opacity: opacity }}>{char}</motion.span>

@@ -3,15 +3,13 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import React, { useRef } from 'react';
 
-const ScrollBlurText = ({ text, className, style }) => {
+const ScrollBlurText = ({ text, className, style, offset = ['start end', 'start 0.75'] }) => {
   const targetRef = useRef(null);
 
-  // --- THIS IS THE KEY CHANGE ---
-  // The animation now starts when the element enters the screen
-  // and finishes when the top of the element reaches the center of the screen.
+  // Use the new 'offset' prop here
   const { scrollYProgress } = useScroll({
     target: targetRef,
-    offset: ['start end', 'start center'], 
+    offset: offset, 
   });
 
   const words = text.split(' ');
@@ -19,7 +17,6 @@ const ScrollBlurText = ({ text, className, style }) => {
   return (
     <p ref={targetRef} className={className} style={style}>
       {words.map((word, i) => {
-        // We still distribute the animation across all words
         const start = i / words.length;
         const end = start + 1 / words.length;
         
