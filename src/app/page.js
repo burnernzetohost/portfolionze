@@ -1,9 +1,10 @@
 // src/app/page.js
 // This is your main home page. Place this file in your 'src/app' directory.
 
-import HeroSection from '../../components/HeroSection'; // Path from src/app/ to root/components/
-import ProjectsSection from '../../components/ProjectsSection'; // Path from src/app/ to root/components/
+import HeroSection from '../../components/HeroSection';
+import ProjectsSection from '../../components/ProjectsSection';
 import AboutSection from '../../components/AboutSection';
+import ContactSection from '../../components/ContactSection'; // 1. Import the new component
 
 export default function HomePage() {
   return (
@@ -11,7 +12,7 @@ export default function HomePage() {
       <HeroSection />
       <ProjectsSection />
       <AboutSection />
-      {/* You will add the ContactSection here later */}
+      <ContactSection /> {/* 2. Add the component to your page */}
     </main>
   );
 }
