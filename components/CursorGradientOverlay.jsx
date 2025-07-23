@@ -1,30 +1,60 @@
 // components/CursorGradientOverlay.jsx
 'use client';
 
-import React, { useState, useEffect } from 'react'; // Import useState and useEffect
-import { useMousePosition } from '../src/contexts/MousePositionContext'; // Corrected path
+import React, { useState, useEffect } from 'react';
+import { useMousePosition } from '../src/contexts/MousePositionContext';
 
 const CursorGradientOverlay = () => {
-  const { x, y } = useMousePosition(); // Get mouse position from context
-  const [hasMounted, setHasMounted] = useState(false); // New state to track if component has mounted
+  const { x, y } = useMousePosition();
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    // Set hasMounted to true once the component mounts on the client side
-    setHasMounted(true);
-  }, []); // Empty dependency array ensures this runs once after initial render
+    // Check screen size on the client-side
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile(); // Check on initial mount
+    window.addEventListener('resize', checkMobile); // Update on resize
 
-  // Define the background style conditionally
-  const gradientBackground = hasMounted
-    ? `radial-gradient(circle at ${x}% ${y}%, #404043 0%, transparent 70%)`
-    : `radial-gradient(circle at 50% 50%, white 0%, transparent 70%)`; // Default static gradient for SSR/initial render
+    // Cleanup the event listener
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Conditionally apply styles based on whether it's mobile or not
+  const style = isMobile
+    ? {
+        background: `radial-gradient(circle at 50% 50%, #404043 0%, transparent 70%)`,
+        animation: 'flowGradient 15s infinite alternate ease-in-out',
+      }
+    : {
+        background: `radial-gradient(circle at ${x}% ${y}%, #404043 0%, transparent 70%)`,
+      };
 
   return (
-    <div
-      className="fixed inset-0 z-0 pointer-events-none"
-      style={{
-        background: gradientBackground, // Use the conditionally defined background
-      }}
-    ></div>
+    <>
+      {/* Add keyframes for the mobile animation */}
+      <style jsx global>{`
+        @keyframes flowGradient {
+          0% {
+            background-position: 0% 50%;
+            background-size: 300% 300%;
+          }
+          50% {
+            background-position: 100% 50%;
+            background-size: 400% 400%;
+          }
+          100% {
+            background-position: 0% 50%;
+            background-size: 300% 300%;
+          }
+        }
+      `}</style>
+      <div
+        className="fixed inset-0 z-0 pointer-events-none"
+        style={style}
+      ></div>
+    </>
   );
 };
 
