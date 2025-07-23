@@ -30,7 +30,7 @@ const AboutSection = () => {
       <motion.div
     // 1. Added responsive width and height classes here
     className="absolute top-[-50%] right-[35%] w-[108px] h-[99px] md:left-[22%] md:w-[120px] md:h-[110px] md:z-[99]"
-    style={{ y: image2Y }}
+    style={{ y: image2Y }} 
 >
     <Image
         src="/images/keyboard1.png"
