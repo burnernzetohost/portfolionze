@@ -4,11 +4,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 
 const projects = [
-  { id: 1, src: "/images/img1.jpg", description: "Don't chase, LAP" },
-  { id: 2, src: "/images/img2.jpg", description: "Built for the longer run." },
-  { id: 3, src: "/images/img3.jpg", description: "Linked by purpose, not pressure." },
-  { id: 4, src: "/images/img4.jpg", description: "Low effort. High impact." },
-  { id: 5, src: "/images/img5.jpg", description: "Rome wasn’t built in a day, Nor was my portfolio." }
+  { id: 1, src: "/images/img1.jpg", name: "Dariza Fabrics", description: <>Frontend + backend, ecom with admin panel. <a href="https://dariza-fabrics.vercel.app/" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', color: 'inherit' }}>Live site ↗</a></> },
+  { id: 2, src: "/images/img2.jpg", name: "Rolex", description: <>GSAP + Lenis Frontend. <a href="https://rolex-nu-liart.vercel.app/" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', color: 'inherit' }}>Live site ↗</a></> },
+  { id: 3, src: "/images/img3.jpg", name: "img3", description: "Linked by purpose, not pressure." },
+  { id: 4, src: "/images/img4.jpg", name: "img4", description: "Low effort. High impact." },
+  { id: 5, src: "/images/img5.jpg", name: "img5", description: "Rome wasn't built in a day, Nor was my portfolio." }
 ];
 
 // Custom hook to get an element's full width, including padding and borders
@@ -86,6 +86,10 @@ const ProjectsSection = () => {
     <section id="projects" className="relative min-h-screen flex flex-col items-center justify-center text-center py-16 overflow-hidden">
       <div className="absolute left-8 top-8 text-gray-600 text-sm">.02</div>
       <div className="relative z-10 max-w-7xl mx-auto flex flex-col items-center justify-center h-full w-full">
+        {/* "Projects" heading — always above the images */}
+        <h2 className="text-5xl md:text-6xl font-bold uppercase text-center text-[#dddddd] mb-8" style={{ fontFamily: 'var(--font-montserrat)' }}>Projects</h2>
+
+        {/* Mobile carousel */}
         <div className="md:hidden relative w-full flex items-center justify-center">
           <button
             onClick={() => {
@@ -138,6 +142,8 @@ const ProjectsSection = () => {
             </svg>
           </button>
         </div>
+
+        {/* Desktop carousel */}
         <div className="hidden md:relative md:w-full md:h-[350px] md:flex md:items-center md:justify-center">
           {projects.map((project, index) => {
             let offset = index - activeIndex;
@@ -158,7 +164,10 @@ const ProjectsSection = () => {
             );
           })}
         </div>
-        <h2 className="text-5xl md:text-6xl font-bold uppercase text-center text-[#dddddd] mt-8" style={{ fontFamily: 'var(--font-montserrat)' }}>Projects</h2>
+
+        {/* Dynamic project name — same style as "Projects" heading */}
+        <h2 className="text-5xl md:text-6xl font-bold uppercase text-center text-[#dddddd] mt-8" style={{ fontFamily: 'var(--font-montserrat)' }}>{projects[activeIndex].name}</h2>
+        {/* Description below the name */}
         <p className="text-lg md:text-xl text-center text-gray-400 mt-4 mx-auto max-w-lg h-16 px-4 md:px-0" style={{ fontFamily: 'var(--font-cocogoose-pro-thin)' }}>{projects[activeIndex].description}</p>
       </div>
     </section>
