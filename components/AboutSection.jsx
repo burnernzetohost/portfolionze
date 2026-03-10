@@ -25,42 +25,42 @@ const AboutSection = () => {
 
   return (
     <section id="about" ref={sectionRef} className="relative min-h-screen flex flex-col justify-center text-left p-8 md:p-16 overflow-hidden">
-      
+
       {/* Parallax Images: Adjusted positioning to be less extreme on mobile */}
       <motion.div
-    // 1. Added responsive width and height classes here
-    className="absolute top-[-50%] right-[35%] w-[108px] h-[99px] md:left-[22%] md:w-[120px] md:h-[110px] md:z-[99]"
-    style={{ y: image2Y }} 
->
-    <Image
-        src="/images/keyboard1.png"
-        alt="A second keyboard"
-        fill={true} // 2. Replaced width and height with fill={true}
-        sizes="(max-width: 768px) 108px, 99px" // Optional, but good for performance
-        onError={(e) => { e.target.onerror = null; e.target.src=`https://placehold.co/120x95/333/FFF?text=keyboard1.png`; }}
-    />
-</motion.div>
+        // 1. Added responsive width and height classes here
+        className="absolute top-[-50%] right-[37%] w-[108px] h-[99px] md:left-[45%] md:w-[120px] md:h-[110px] md:z-[99]"
+        style={{ y: image2Y }}
+      >
+        <Image
+          src="/images/keyboard1.png" //z key
+          alt="A second keyboard"
+          fill={true} // 2. Replaced width and height with fill={true}
+          sizes="(max-width: 768px) 108px, 99px" // Optional, but good for performance
+          onError={(e) => { e.target.onerror = null; e.target.src = `https://placehold.co/120x95/333/FFF?text=keyboard1.png`; }}
+        />
+      </motion.div>
 
       <motion.div
         className="absolute top-[-10%] right-[5%] md:left-[75%] z-5" // Adjusted position
         style={{ y: image3Y }}
       >
         <Image
-          src="/images/keyboard3.png"
+          src="/images/keyboard3.png" //E key
           alt="A third keyboard"
           width={120}
           height={95}
-          onError={(e) => { e.target.onerror = null; e.target.src=`https://placehold.co/100x80/333/FFF?text=keyboard3.png`; }}
+          onError={(e) => { e.target.onerror = null; e.target.src = `https://placehold.co/100x80/333/FFF?text=keyboard3.png`; }}
         />
       </motion.div>
 
       <div className="absolute left-8 top-8 text-gray-600 text-sm">.03</div>
-      
+
       <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-x-16 items-center max-w-7xl mx-auto">
-        
+
         {/* The layout is now responsive. `translateY` is adjusted on mobile. */}
         <div className="flex flex-col" style={{ transform: 'translateY(-4rem) md:translateY(-8rem)' }}>
-          <ScrollDrivenTextAnimation 
+          <ScrollDrivenTextAnimation
             text="About"
             className="text-7xl md:text-9xl font-bold uppercase text-[#dddddd] tracking-widest"
             style={{ fontFamily: 'var(--font-montserrat)' }}
@@ -69,11 +69,11 @@ const AboutSection = () => {
           <div className="mt-8 self-start">
             <motion.div style={{ y: imageY }}>
               <Image
-                src="/images/keyboard.png"
+                src="/images/keyboard.png" // N key
                 alt="A mechanical keyboard on a desk"
                 width={120}
                 height={95}
-                onError={(e) => { e.target.onerror = null; e.target.src=`https://placehold.co/120x95/333/FFF?text=keyboard.png`; }}
+                onError={(e) => { e.target.onerror = null; e.target.src = `https://placehold.co/120x95/333/FFF?text=keyboard.png`; }}
               />
             </motion.div>
           </div>
@@ -81,16 +81,16 @@ const AboutSection = () => {
 
         {/* Text content now stacks naturally on mobile */}
         <div className="space-y-8 mt-8 md:mt-0">
-          <ScrollBlurText 
-            text={p1} 
-            className="text-lg md:text-xl text-gray-400 leading-relaxed flex flex-wrap" 
-            style={{ fontFamily: 'var(--font-cocogoose-pro-thin)' }} 
+          <ScrollBlurText
+            text={p1}
+            className="text-lg md:text-xl text-gray-400 leading-relaxed flex flex-wrap"
+            style={{ fontFamily: 'var(--font-cocogoose-pro-thin)' }}
             offset={['start end', '0 0.45']}
           />
-           <ScrollBlurText 
-            text={p2} 
-            className="text-lg md:text-xl text-gray-400 leading-relaxed flex flex-wrap" 
-            style={{ fontFamily: 'var(--font-cocogoose-pro-thin)' }} 
+          <ScrollBlurText
+            text={p2}
+            className="text-lg md:text-xl text-gray-400 leading-relaxed flex flex-wrap"
+            style={{ fontFamily: 'var(--font-cocogoose-pro-thin)' }}
             offset={['start end', '0 0.6']}
           />
         </div>

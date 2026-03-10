@@ -11,7 +11,7 @@ const Header = () => {
       <header className="absolute top-0 left-0 right-0 p-6 md:p-8 flex justify-between items-center z-50">
         {/* Top left text */}
         <div className="text-gray-400 text-xs uppercase tracking-widest">
-          A FREELANCE WEB-DEVELOPER
+          A FREELANCE DEVELOPER
         </div>
 
         {/* Desktop Navigation */}

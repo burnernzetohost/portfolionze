@@ -62,13 +62,13 @@ const ProjectsSection = () => {
     else if (index === displayProjects.length - 1) setActiveIndex(0);
     else setActiveIndex(index - 1);
   };
-  
+
   useEffect(() => {
     if (currentIndex === 0 || currentIndex === displayProjects.length - 1) {
       const timer = setTimeout(() => {
         setTransitionDuration('0ms');
         setCurrentIndex(currentIndex === 0 ? numProjects : 1);
-        
+
         const restoreTimer = setTimeout(() => setTransitionDuration('500ms'), 50);
         return () => clearTimeout(restoreTimer);
       }, 500);
@@ -86,51 +86,77 @@ const ProjectsSection = () => {
     <section id="projects" className="relative min-h-screen flex flex-col items-center justify-center text-center py-16 overflow-hidden">
       <div className="absolute left-8 top-8 text-gray-600 text-sm">.02</div>
       <div className="relative z-10 max-w-7xl mx-auto flex flex-col items-center justify-center h-full w-full">
-        <div ref={containerRef} className="md:hidden w-full overflow-hidden">
-          <div
-            className="flex"
-            style={{
-              transform: `translateX(${getTranslateX()}px)`,
-              transition: `transform ${transitionDuration} ease-in-out`,
+        <div className="md:hidden relative w-full flex items-center justify-center">
+          <button
+            onClick={() => {
+              if (currentIndex > 0) handleProjectClick(currentIndex - 1);
             }}
+            className="absolute left-2 z-20 p-2 text-gray-400 hover:text-white transition-colors"
+            aria-label="Previous Project"
           >
-            {displayProjects.map((project, index) => (
-              <div
-                key={`${project.id}-${index}`}
-                ref={index === 0 ? itemRef : null}
-                className="flex-shrink-0 w-4/5 px-2"
-                onClick={() => handleProjectClick(index)}
-              >
-                <img
-                  src={project.src}
-                  alt={`Project Image ${project.id}`}
-                  className={`w-full h-auto object-cover shadow-2xl rounded-lg cursor-pointer transition-all duration-300
-                    ${activeIndex === (index-1+numProjects)%numProjects  ? 'scale-100' : 'scale-90 opacity-70 blur-sm'}`}
-                  onError={(e) => { e.target.onerror = null; e.target.src=`https://placehold.co/400x300/333/FFF?text=Image+${project.id}`; }}
-                />
-              </div>
-            ))}
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+            </svg>
+          </button>
+
+          <div ref={containerRef} className="w-full overflow-hidden">
+            <div
+              className="flex"
+              style={{
+                transform: `translateX(${getTranslateX()}px)`,
+                transition: `transform ${transitionDuration} ease-in-out`,
+              }}
+            >
+              {displayProjects.map((project, index) => (
+                <div
+                  key={`${project.id}-${index}`}
+                  ref={index === 0 ? itemRef : null}
+                  className="flex-shrink-0 w-2/3 px-2"
+                  onClick={() => handleProjectClick(index)}
+                >
+                  <img
+                    src={project.src}
+                    alt={`Project Image ${project.id}`}
+                    className={`w-full h-auto object-cover shadow-2xl rounded-lg cursor-pointer transition-all duration-300
+                      ${activeIndex === (index - 1 + numProjects) % numProjects ? 'scale-100' : 'scale-90 opacity-70 blur-sm'}`}
+                    onError={(e) => { e.target.onerror = null; e.target.src = `https://placehold.co/400x300/333/FFF?text=Image+${project.id}`; }}
+                  />
+                </div>
+              ))}
+            </div>
           </div>
+
+          <button
+            onClick={() => {
+              if (currentIndex < displayProjects.length - 1) handleProjectClick(currentIndex + 1);
+            }}
+            className="absolute right-2 z-20 p-2 text-gray-400 hover:text-white transition-colors"
+            aria-label="Next Project"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+            </svg>
+          </button>
         </div>
         <div className="hidden md:relative md:w-full md:h-[350px] md:flex md:items-center md:justify-center">
-            {projects.map((project, index) => {
-                let offset = index - activeIndex;
-                if (offset < -2) offset += projects.length; else if (offset > 2) offset -= projects.length;
-                let posClass = '';
-                switch (offset) {
-                  case 0: posClass = 'z-30 scale-100 opacity-100 filter-none'; break;
-                  case -1: posClass = 'z-20 scale-75 opacity-75 transform-gpu -translate-x-[100%] filter blur-xs'; break;
-                  case 1: posClass = 'z-20 scale-75 opacity-75 transform-gpu translate-x-[100%] filter blur-xs'; break;
-                  case -2: posClass = 'z-10 scale-50 opacity-50 transform-gpu -translate-x-[180%] filter blur'; break;
-                  case 2: posClass = 'z-10 scale-50 opacity-50 transform-gpu translate-x-[180%] filter blur'; break;
-                  default: posClass = `z-0 scale-0 opacity-0 transform-gpu ${offset < 0 ? `-translate-x-[250%]` : `translate-x-[250%]`}`; break;
-                }
-                return (
-                  <div key={project.id} className={`absolute w-[30%] transition-all duration-700 ease-in-out ${posClass}`} onClick={() => setActiveIndex(index)}>
-                    <img src={project.src} alt={`Project Image ${project.id}`} className="w-full h-auto object-cover shadow-2xl rounded-lg cursor-pointer" onError={(e) => { e.target.onerror = null; e.target.src=`https://placehold.co/400x300/333/FFF?text=Image+${project.id}`; }} />
-                  </div>
-                );
-            })}
+          {projects.map((project, index) => {
+            let offset = index - activeIndex;
+            if (offset < -2) offset += projects.length; else if (offset > 2) offset -= projects.length;
+            let posClass = '';
+            switch (offset) {
+              case 0: posClass = 'z-30 scale-100 opacity-100 filter-none'; break;
+              case -1: posClass = 'z-20 scale-75 opacity-75 transform-gpu -translate-x-[100%] filter blur-xs'; break;
+              case 1: posClass = 'z-20 scale-75 opacity-75 transform-gpu translate-x-[100%] filter blur-xs'; break;
+              case -2: posClass = 'z-10 scale-50 opacity-50 transform-gpu -translate-x-[180%] filter blur'; break;
+              case 2: posClass = 'z-10 scale-50 opacity-50 transform-gpu translate-x-[180%] filter blur'; break;
+              default: posClass = `z-0 scale-0 opacity-0 transform-gpu ${offset < 0 ? `-translate-x-[250%]` : `translate-x-[250%]`}`; break;
+            }
+            return (
+              <div key={project.id} className={`absolute w-[30%] transition-all duration-700 ease-in-out ${posClass}`} onClick={() => setActiveIndex(index)}>
+                <img src={project.src} alt={`Project Image ${project.id}`} className="w-full h-auto object-cover shadow-2xl rounded-lg cursor-pointer" onError={(e) => { e.target.onerror = null; e.target.src = `https://placehold.co/400x300/333/FFF?text=Image+${project.id}`; }} />
+              </div>
+            );
+          })}
         </div>
         <h2 className="text-5xl md:text-6xl font-bold uppercase text-center text-[#dddddd] mt-8" style={{ fontFamily: 'var(--font-montserrat)' }}>Projects</h2>
         <p className="text-lg md:text-xl text-center text-gray-400 mt-4 mx-auto max-w-lg h-16 px-4 md:px-0" style={{ fontFamily: 'var(--font-cocogoose-pro-thin)' }}>{projects[activeIndex].description}</p>
